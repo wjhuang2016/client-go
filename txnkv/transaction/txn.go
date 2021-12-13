@@ -392,6 +392,7 @@ func (txn *KVTxn) Commit(ctx context.Context) error {
 		if val == nil || sessionID > 0 {
 			txn.onCommitted(err)
 		}
+		logutil.Logger(ctx).Warn(fmt.Sprintf("commit ts %d, start %d", committer.commitTS, committer.startTS))
 		logutil.Logger(ctx).Debug("[kv] txnLatches disabled, 2pc directly", zap.Error(err))
 		return err
 	}
@@ -413,6 +414,7 @@ func (txn *KVTxn) Commit(ctx context.Context) error {
 	if val == nil || sessionID > 0 {
 		txn.onCommitted(err)
 	}
+	logutil.Logger(ctx).Warn(fmt.Sprintf("commit ts %d, start %d", committer.commitTS, committer.startTS))
 	if err == nil {
 		lock.SetCommitTS(committer.commitTS)
 	}

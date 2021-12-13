@@ -1212,6 +1212,8 @@ func (c *twoPhaseCommitter) execute(ctx context.Context) (err error) {
 		// Plus 1 to avoid producing the same commit TS with previously committed transactions
 		c.minCommitTS = latestTS + 1
 	}
+	logutil.Logger(ctx).Error("before get prewrite 5 sec")
+	time.Sleep(5 * time.Second)
 	// Calculate maxCommitTS if necessary
 	if commitTSMayBeCalculated {
 		if err = c.calculateMaxCommitTS(ctx); err != nil {
